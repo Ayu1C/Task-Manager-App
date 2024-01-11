@@ -1,9 +1,9 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const app = express();
+//const app = express();
 
 // Enable CORS
-app.use(cors());
+//app.use(cors());
 
 module.exports = function (app) {
   app.use(
