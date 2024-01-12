@@ -15,7 +15,7 @@ const getHeaders = () => {
 
 export const getTasks = async () => {
   try {
-    const response = await axios.get(`/tasks/task/`, getHeaders());
+    const response = await axios.get(`${API_BASE_URL}/api/v1/tasks/task/`, getHeaders());
     return response.data;
   } catch (error) {
     throw error;
@@ -24,7 +24,7 @@ export const getTasks = async () => {
 
 export const createTask = async (taskData) => {
   try {
-    await axios.post(`${API_BASE_URL}/tasks/task/`, taskData, getHeaders());
+    await axios.post(`${API_BASE_URL}/api/v1/tasks/task/`, taskData, getHeaders());
   } catch (error) {
     throw error;
   }
@@ -32,7 +32,7 @@ export const createTask = async (taskData) => {
 
 export const updateTask = async (taskId, taskData) => {
   try {
-    await axios.put(`${API_BASE_URL}/tasks/task/${taskId}/`, taskData, getHeaders());
+    await axios.put(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, taskData, getHeaders());
   } catch (error) {
     throw error;
   }
@@ -40,7 +40,7 @@ export const updateTask = async (taskId, taskData) => {
 
 export const deleteTask = async (taskId) => {
   try {
-    await axios.delete(`${API_BASE_URL}/tasks/task/${taskId}/`, getHeaders());
+    await axios.delete(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, getHeaders());
   } catch (error) {
     throw error;
   }

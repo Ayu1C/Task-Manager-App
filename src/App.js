@@ -12,6 +12,7 @@ const App = () => {
     const authenticateAndFetchTasks = async () => {
       try {
         const accessToken = getAccessToken();
+        
         if (!accessToken) {
           // If not authenticated, perform login
           const { access, refresh } = await login(process.env.REACT_APP_EMAIL, process.env.REACT_APP_PASSWORD);

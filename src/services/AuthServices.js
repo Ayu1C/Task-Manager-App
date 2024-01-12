@@ -6,7 +6,7 @@ const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 export const login = async () => {
   try {
-    const response = await axios.post(`/auth/token/`, {
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/token/`, {
       email: EMAIL,
       password: PASSWORD,
     });
@@ -18,7 +18,7 @@ export const login = async () => {
 
 export const refreshToken = async (refreshToken) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/token/refresh/`, {
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/token/refresh/`, {
       refresh: refreshToken,
     });
     return response.data;
