@@ -1,44 +1,44 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-const EMAIL = process.env.REACT_APP_EMAIL;
-const PASSWORD = process.env.REACT_APP_PASSWORD;
 
-export const login = async () => {
+
+const login = async (email, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/v1/auth/token/`, {
-      email: EMAIL,
-      password: PASSWORD,
+      email: email,
+      password: password,
     });
-    return response.data;
+
+    const accessToken = response.data.access;
+    const refreshToken = response.data.refresh;
+
+    // Store refreshToken in an HttpOnly cookie for enhanced security
+    document.cookie = `refreshToken=${refreshToken}; path=/; HttpOnly; Secure`;
+    return accessToken;
   } catch (error) {
     throw error;
   }
 };
 
-export const refreshToken = async (refreshToken) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/token/refresh/`, {
-      refresh: refreshToken,
-    });
-    return response.data;
+const refreshAccessToken = async () => {
+ try{
+    const response = await axios.post(
+      `${API_BASE_URL}/api/v1/auth/token/refresh/`,
+      {},
+      {
+        headers: {
+          Authorization: `Basic ${btoa(`refresh:${document.cookie.refreshToken}`)}`,
+        },
+      }
+    );
+
+    const newAccessToken = response.data.access;
+
+    return newAccessToken;
   } catch (error) {
     throw error;
   }
 };
 
-// Function to save tokens in local storage
-export const saveTokens = ({ access, refresh }) => {
-  localStorage.setItem('access_token', access);
-  localStorage.setItem('refresh_token', refresh);
-};
-
-// Function to get the access token from local storage
-export const getAccessToken = () => {
-  return localStorage.getItem('access_token');
-};
-
-// Function to get the refresh token from local storage
-export const getRefreshToken = () => {
-  return localStorage.getItem('refresh_token');
-};
+export { login, refreshAccessToken };

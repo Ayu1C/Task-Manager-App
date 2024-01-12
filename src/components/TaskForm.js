@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-const TaskForm = ({
-  onSubmit,
-  initialTitle = "",
-  initialDescription = "",
-  initialDueDate = "",
-  initialPriority = "",
-}) => {
-  const [title, setTitle] = useState(initialTitle);
-  const [description, setDescription] = useState(initialDescription);
-  const [dueDate, setDueDate] = useState(initialDueDate);
-  const [priority, setPriority] = useState(initialPriority);
+const TaskForm = ({ onSubmit, initialTitle, initialDescription, initialDueDate, initialPriority }) => {
+  const [title, setTitle] = useState(initialTitle || '');
+  const [description, setDescription] = useState(initialDescription || '');
+  const [dueDate, setDueDate] = useState(initialDueDate || '');
+  const [priority, setPriority] = useState(initialPriority || 'high');
 
   useEffect(() => {
-    setTitle(initialTitle);
-    setDescription(initialDescription);
-    setDueDate(initialDueDate);
-    setPriority(initialPriority);
+    setTitle(initialTitle || '');
+    setDescription(initialDescription || '');
+    setDueDate(initialDueDate || '');
+    setPriority(initialPriority || 'high');
   }, [initialTitle, initialDescription, initialDueDate, initialPriority]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(title, description, dueDate, priority);
-    setTitle("");
-    setDescription("");
-    setDueDate("");
-    setPriority("");
+    onSubmit({ title, description, dueDate, priority});
+    // Reset form fields after submission
+    setTitle('');
+    setDescription('');
+    setDueDate('');
+    setPriority('high');
   };
 
   return (
-    <form
-      className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 space-y-4"
-      onSubmit={handleSubmit}
-    >
+    <form className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 space-y-4" onSubmit={handleSubmit}>
       <div className="flex flex-col">
         <label htmlFor="title" className="mb-1">
           Title:
@@ -87,11 +79,8 @@ const TaskForm = ({
         </select>
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Create Task
+      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        {initialTitle ? 'Edit Task' : 'Create Task'}
       </button>
     </form>
   );

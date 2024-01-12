@@ -1,48 +1,55 @@
 import axios from 'axios';
-import { getAccessToken } from './AuthServices';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-// Function to get headers with the access token
-const getHeaders = () => {
-  const accessToken = getAccessToken();
-  return {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-};
-
-export const getTasks = async () => {
+const getTasks = async (accessToken) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/v1/tasks/task/`, getHeaders());
-    return response.data;
+    const response = await axios.get(`${API_BASE_URL}/api/v1/tasks/task/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data.results;
   } catch (error) {
     throw error;
   }
 };
 
-export const createTask = async (taskData) => {
+const createTask = async (taskData, accessToken) => {
   try {
-    await axios.post(`${API_BASE_URL}/api/v1/tasks/task/`, taskData, getHeaders());
+    await axios.post(`${API_BASE_URL}/api/v1/tasks/task/`, taskData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
   } catch (error) {
     throw error;
   }
 };
 
-export const updateTask = async (taskId, taskData) => {
+const updateTask = async (taskId, updatedData, accessToken) => {
   try {
-    await axios.put(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, taskData, getHeaders());
+    await axios.patch(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteTask = async (taskId) => {
+const deleteTask = async (taskId, accessToken) => {
   try {
-    await axios.delete(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, getHeaders());
+    await axios.delete(`${API_BASE_URL}/api/v1/tasks/task/${taskId}/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
   } catch (error) {
     throw error;
   }
 };
 
+export { getTasks, createTask, updateTask, deleteTask };
