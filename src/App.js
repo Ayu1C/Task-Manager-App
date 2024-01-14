@@ -85,30 +85,32 @@ const App = () => {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Task Management App</h1>
-      
-      {editTask!=null ? (
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">Edit Task</h2>
-          <TaskForm
-            onSubmit={handleUpdateTask}
-            initialLabel={editTask.label}
-            initialDescription={editTask.description}
-            initialDueDate={editTask.meta.dueDate}
-            initialPriority={editTask.meta.priority}
-          />
-        </div>
-      ) : (
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-2">Create Task</h2>
-          <TaskForm onSubmit={handleCreateTask} />
-        </div>
-      )}
-
-      <h2 className="text-xl font-semibold mb-2">Tasks</h2>
-      <TaskList tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteTask} />
-      {/* <button onClick={handleRefreshToken}>Refresh Access Token</button> */}
+    <div className="bg-gradient-to-r from-cyan-500 to-blue-500"> 
+       <div className="max-w-md mx-auto px-4 py-8">
+         <h1 className="text-3xl font-bold mb-4 text-red-600">Task Management App</h1>
+         
+         {editTask!=null ? (
+           <div className="mb-4">
+             <h2 className="text-xl font-semibold mb-2">Edit Task</h2>
+             <TaskForm
+               onSubmit={handleUpdateTask}
+               initialLabel={editTask.label}
+               initialDescription={editTask.description}
+               initialDueDate={editTask.meta.dueDate}
+               initialPriority={editTask.meta.priority}
+             />
+           </div>
+         ) : (
+           <div className="mb-4">
+             <h2 className="text-xl font-semibold mb-2">Create Task</h2>
+             <TaskForm onSubmit={handleCreateTask} />
+           </div>
+         )}
+   
+         <h2 className="text-xl font-semibold mb-2">Tasks</h2>
+         <TaskList tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteTask} />
+         {/* <button onClick={handleRefreshToken}>Refresh Access Token</button> */}
+       </div>
     </div>
   );
 };
