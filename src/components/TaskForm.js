@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
-const TaskForm = ({ onSubmit, initialTitle, initialDescription, initialDueDate, initialPriority }) => {
-  const [title, setTitle] = useState(initialTitle || '');
+const TaskForm = ({ onSubmit, initialLabel, initialDescription, initialDueDate, initialPriority }) => {
+  const [label, setLabel] = useState(initialLabel || '');
   const [description, setDescription] = useState(initialDescription || '');
   const [dueDate, setDueDate] = useState(initialDueDate || '');
   const [priority, setPriority] = useState(initialPriority || 'high');
 
   useEffect(() => {
-    setTitle(initialTitle || '');
+    setLabel(initialLabel || '');
     setDescription(initialDescription || '');
     setDueDate(initialDueDate || '');
     setPriority(initialPriority || 'high');
-  }, [initialTitle, initialDescription, initialDueDate, initialPriority]);
+  }, [initialLabel, initialDescription, initialDueDate, initialPriority]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ title, description, dueDate, priority});
+    const task = {"label" : label, "meta" : {"dueDate" : dueDate,
+     "priority": priority}, "description" : description};
+    onSubmit(task);
     // Reset form fields after submission
-    setTitle('');
+    setLabel('');
     setDescription('');
     setDueDate('');
     setPriority('high');
@@ -32,8 +34,8 @@ const TaskForm = ({ onSubmit, initialTitle, initialDescription, initialDueDate, 
         <input
           type="text"
           id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
           className="px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
@@ -80,8 +82,9 @@ const TaskForm = ({ onSubmit, initialTitle, initialDescription, initialDueDate, 
       </div>
 
       <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        {initialTitle ? 'Edit Task' : 'Create Task'}
+        {initialLabel ? 'Edit Task' : 'Create Task'}
       </button>
+
     </form>
   );
 };

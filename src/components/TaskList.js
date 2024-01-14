@@ -5,12 +5,12 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask }) => {
     <div className="grid gap-4">
       {tasks.map((task) => (
         <div key={task.id} className="bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-semibold mb-2">{task.title}</h3>
+          <h3 className="text-lg font-semibold mb-2">{task.label}</h3>
           <p className="mb-2">{task.description}</p>
-          <p className="mb-2">Due Date: {task.dueDate}</p>
-          <p className="mb-2">Priority: {task.priority}</p>
+          <p className="mb-2">Due Date: {task.meta.dueDate}</p>
+          <p className="mb-2">Priority: {task.meta.priority}</p>
           <button
-            onClick={() => onEditTask(task.Id, task.title, task.description, task.dueDate, task.priority)}
+            onClick={() => onEditTask(task)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           >
             Edit

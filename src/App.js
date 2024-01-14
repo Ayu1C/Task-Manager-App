@@ -7,12 +7,15 @@ import TaskForm from './components/TaskForm';
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
   const [editTask, setEditTask] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   const authenticateAndFetchTasks = async (email, password) => {
     try {
-      const accessToken = await login(email, password);
-      await fetchTasks(accessToken);
+      const accesstoken = await login(email, password);
+      setAccessToken(accesstoken);
+      await fetchTasks(accesstoken);
     } catch (error) {
       console.error('Authentication or fetch tasks failed:', error);
     }
@@ -38,7 +41,7 @@ const App = () => {
   //   }
   // };
 
-  const handleCreateTask = async (taskData, accessToken) => {
+  const handleCreateTask = async (taskData) => {
     try {
       await createTask(taskData, accessToken);
       await fetchTasks(accessToken);
@@ -47,18 +50,20 @@ const App = () => {
     }
   };
 
-  const handleUpdateTask = async (taskId, updatedData, accessToken) => {
+  const handleUpdateTask = async (updatedData) => {
     try {
+      const taskId = editId;
       await updateTask(taskId, updatedData, accessToken);
       await fetchTasks(accessToken);
       setEditTask(null);
       setEdit(false);
+      setEditId(null);
     } catch (error) {
       console.error('Error updating task:', error);
     }
   };
 
-  const handleDeleteTask = async (taskId, accessToken) => {
+  const handleDeleteTask = async (taskId) => {
     try {
       await deleteTask(taskId, accessToken);
       await fetchTasks(accessToken);
@@ -67,10 +72,10 @@ const App = () => {
     }
   };
 
-  const handleEditTask = async (taskId, taskTitle, taskDes, taskDate, taskPrio) => {
-     const sentTask = {taskId, taskTitle, taskDes, taskDate, taskPrio};
-     setEditTask(sentTask);
+  const handleEditTask = async (task) => {
+     setEditTask(task);
      setEdit(true);
+     setEditId(task.id);
   };
 
   useEffect(() => {
@@ -88,10 +93,10 @@ const App = () => {
           <h2 className="text-xl font-semibold mb-2">Edit Task</h2>
           <TaskForm
             onSubmit={handleUpdateTask}
-            initialTitle={editTask.title}
+            initialLabel={editTask.label}
             initialDescription={editTask.description}
-            initialDueDate={editTask.dueDate}
-            initialPriority={editTask.priority}
+            initialDueDate={editTask.meta.dueDate}
+            initialPriority={editTask.meta.priority}
           />
         </div>
       ) : (
