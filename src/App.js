@@ -30,17 +30,6 @@ const App = () => {
     }
   };
 
-  // const handleRefreshToken = async () => {
-  //   try {
-  //     const newAccessToken = await refreshAccessToken();
-  //     if (newAccessToken) {
-  //       await fetchTasks(newAccessToken);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error refreshing access token:', error);
-  //   }
-  // };
-
   const handleCreateTask = async (taskData) => {
     try {
       await createTask(taskData, accessToken);
